@@ -4,7 +4,79 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trigrinho - Prova de Conceito</title>
-  <link rel="stylesheet" href="style.css"> <!-- Link para o arquivo CSS externo -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      color: #2c3e50;
+    }
+    
+    .slot-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    .slot {
+      width: 100%;
+      height: 100px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f9f9f9;
+      transition: all 0.3s ease;
+    }
+    
+    .slot:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    }
+    
+    svg {
+      width: 60px;
+      height: 60px;
+    }
+    
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #2980b9;
+    }
+    
+    .score {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body>
   <svg style="display: none;">
@@ -30,9 +102,12 @@
       <circle cx="35" cy="45" r="2" fill="black"/>
     </symbol>
   </svg>
-  <div class="container"> <!-- Contêiner principal -->
-    <h1>Trigrinho - Jogo Conceitual</h1> <!-- Título do jogo -->
-    <div class="container">
+  
+  <div class="container">
+    <h1>Trigrinho - Jogo Conceitual</h1>
+    
+    <div class="score">Pontuação: <span id="pontuacao">0</span></div>
+    
     <div class="slot-grid">
       <div class="slot"><svg><use href="#uva" /></svg></div>
       <div class="slot"><svg><use href="#cereja" /></svg></div>
@@ -44,6 +119,40 @@
       <div class="slot"><svg><use href="#cereja" /></svg></div>
       <div class="slot"><svg><use href="#melancia" /></svg></div>
     </div>
+    
+    <button onclick="girarSlots()">Girar</button>
+    <button onclick="reiniciar()">Reiniciar</button>
   </div>
+
+  <script>
+    let pontuacao = 0;
+    
+    function girarSlots() {
+      const slots = document.querySelectorAll('.slot');
+      
+      // Animação de giro
+      slots.forEach(slot => {
+        slot.style.transform = 'rotate(360deg)';
+        slot.style.transition = 'transform 0.5s ease';
+        
+        // Sorteia um novo ícone
+        setTimeout(() => {
+          const icones = ['#uva', '#cereja', '#melancia'];
+          const iconeAleatorio = icones[Math.floor(Math.random() * icones.length)];
+          slot.innerHTML = `<svg><use href="${iconeAleatorio}" /></svg>`;
+          slot.style.transform = 'rotate(0)';
+        }, 500);
+      });
+      
+      // Aumenta a pontuação
+      pontuacao += 10;
+      document.getElementById('pontuacao').textContent = pontuacao;
+    }
+    
+    function reiniciar() {
+      pontuacao = 0;
+      document.getElementById('pontuacao').textContent = pontuacao;
+    }
+  </script>
 </body>
 </html>
