@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Connexa - Criar Grupo de Estudo</title>
+  <link rel="stylesheet" href="/api/groups/frontend/css/styles.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Criar Grupo de Estudo</h1>
+
+    <form id="groupForm">
+      <label for="assunto">Assunto *</label>
+      <input id="assunto" name="assunto" required />
+
+      <label for="descricao">Descrição</label>
+      <textarea id="descricao" name="descricao" rows="4"></textarea>
+
+      <button type="submit">Criar Grupo</button>
+    </form>
+
+    <div id="message" role="status"></div>
+  </main>
+
+  <script src="/api/groups/frontend/js/groups.js"></script>
+</body>
+</html>
