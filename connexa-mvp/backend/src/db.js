@@ -35,9 +35,23 @@ function init() {
       criadoPor INTEGER
     )
   `;
+  const createUsuarios = `
+    CREATE TABLE IF NOT EXISTS Usuarios (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nome TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      senha TEXT NOT NULL
+    )
+  `;
+
   return new Promise((resolve, reject) => {
-    db.run(createTableSql, (err) => {
-      if (err) return reject(err);
+    db.serialize(() => {
+      db.run(createTableSql, (err) => {
+        if (err) return reject(err);
+      });
+      db.run(createUsuarios, (err) => {
+        if (err) return reject(err);
+      });
       resolve();
     });
   });
