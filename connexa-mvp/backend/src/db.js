@@ -94,4 +94,23 @@ function clearAll() {
   });
 }
 
-module.exports = { db, init, close, insertGrupoEstudo, clearAll };
+// Promise wrappers for convenience
+function get(sql, params) {
+  return new Promise((resolve, reject) => {
+    db.get(sql, params, (err, row) => {
+      if (err) return reject(err);
+      resolve(row);
+    });
+  });
+}
+
+function run(sql, params) {
+  return new Promise((resolve, reject) => {
+    db.run(sql, params, function (err) {
+      if (err) return reject(err);
+      resolve(this);
+    });
+  });
+}
+
+module.exports = { db, init, close, insertGrupoEstudo, clearAll, get, run };
