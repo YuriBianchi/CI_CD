@@ -22,6 +22,20 @@ CREATE TABLE IF NOT EXISTS GrupoEstudo (
   descricao TEXT,
   criadoPor INTEGER
 );
+
+CREATE TABLE IF NOT EXISTS Usuarios (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nome TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE,
+  senha TEXT NOT NULL
+);
+
+-- seed users
+INSERT OR IGNORE INTO Usuarios (nome, email, senha) VALUES ('Yuri', 'yuri@example.com', 'Senha123');
+INSERT OR IGNORE INTO Usuarios (nome, email, senha) VALUES ('Eduardo', 'eduardo@example.com', 'Senha123');
+INSERT OR IGNORE INTO Usuarios (nome, email, senha) VALUES ('Manoel', 'manoel@example.com', 'Senha123');
+INSERT OR IGNORE INTO Usuarios (nome, email, senha) VALUES ('Marco', 'marco@example.com', 'Senha123');
+INSERT OR IGNORE INTO Usuarios (nome, email, senha) VALUES ('Lucio', 'lucio@example.com', 'Senha123');
 `;
 
 db.exec(sql, (err) => {
