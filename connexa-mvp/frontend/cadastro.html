@@ -1,0 +1,32 @@
+<!-- TASK-005: Formulário para cadastro de usuários -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro de Usuário - Connexa</title>
+  <link rel="stylesheet" href="css/cadastro.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Cadastro de Usuário</h1>
+    <form id="cadastroForm">
+      <label for="email">Email Institucional *</label>
+      <input id="email" name="email" type="email" required placeholder="exemplo@fatec.sp.gov.br" />
+
+      <label for="senha">Senha *</label>
+      <input id="senha" name="senha" type="password" required placeholder="Senha forte" />
+
+      <ul id="senhaRequisitos">
+        <li>Mínimo de 8 caracteres</li>
+        <li>Inclui letras maiúsculas e minúsculas</li>
+        <li>Inclui pelo menos um número</li>
+      </ul>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+    <div id="message" role="status"></div>
+  </main>
+  <script src="js/cadastro.js"></script>
+</body>
+</html>
