@@ -1,0 +1,53 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Backend / Frontend folders
+connexa-mvp/backend/node_modules/
+connexa-mvp/frontend/node_modules/
+
+# Build outputs
+dist/
+build/
+coverage/
+.nyc_output/
+/.parcel-cache/
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Environment
+.env
+.env.*
+.env.local
+
+# Databases
+# Ignore project sqlite files (local dev DBs)
+**/*.sqlite
+**/*.sqlite3
+**/*.db
+connexa-mvp/database/connexa.sqlite
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Misc
+.cache/
+*.pid
+*.seed
+*.gz
+
+# Jest
+/jest-config.js
+.jest/
