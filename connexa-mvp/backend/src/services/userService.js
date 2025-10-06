@@ -1,4 +1,4 @@
-const db = require("../src/db");
+const db = require("../db");
 
 async function verificarEmailDuplicado(email) {
   const sql = `SELECT id FROM Usuario WHERE email = ?`;

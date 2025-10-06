@@ -1,6 +1,6 @@
 const express = require("express");
 const groupsRouter = require("./routes/groups");
-const usersRouter = require("../routes/usuarios");
+const usersRouter = require("./routes/usuarios");
 const db = require("./db");
 
 const createApp = async () => {
