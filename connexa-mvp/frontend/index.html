@@ -21,9 +21,18 @@
       <button type="submit">Criar Grupo</button>
     </form>
 
+    <hr />
+    <h2>Entrar em um Grupo</h2>
+    <form id="joinForm">
+      <label for="grupoId">ID do Grupo</label>
+      <input id="grupoId" name="grupoId" type="number" required />
+      <button type="submit">Entrar</button>
+    </form>
+
     <div id="message" role="status"></div>
   </main>
 
   <script src="/api/groups/frontend/js/groups.js"></script>
+  <script src="/api/groups/frontend/js/join.js"></script>
 </body>
 </html>
