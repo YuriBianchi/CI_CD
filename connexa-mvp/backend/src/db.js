@@ -35,6 +35,14 @@ function init() {
       criadoPor INTEGER
     )
   `;
+<<<<<<< HEAD
+  const createUsuarios = `
+    CREATE TABLE IF NOT EXISTS Usuarios (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nome TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      senha TEXT NOT NULL
+=======
 
   const createUsuarioTableSql = `
     CREATE TABLE IF NOT EXISTS Usuario (
@@ -42,16 +50,28 @@ function init() {
       email TEXT NOT NULL UNIQUE,
       senha TEXT NOT NULL,
       confirmado INTEGER DEFAULT 0
+>>>>>>> main
     )
   `;
 
   return new Promise((resolve, reject) => {
+<<<<<<< HEAD
+    db.serialize(() => {
+      db.run(createTableSql, (err) => {
+        if (err) return reject(err);
+      });
+      db.run(createUsuarios, (err) => {
+        if (err) return reject(err);
+      });
+      resolve();
+=======
     db.run(createUsuarioTableSql, (err) => {
       if (err) return reject(err);
       db.run(createTableSql, (err) => {
         if (err) return reject(err);
         resolve();
       });
+>>>>>>> main
     });
   });
 }
