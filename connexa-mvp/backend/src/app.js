@@ -7,13 +7,25 @@ const createApp = async () => {
   const app = express();
   app.use(express.json());
   app.use("/api/groups", groupsRouter);
-  // auth
-  const authRouter = require("./routes/auth");
-  app.use("/api/auth", authRouter);
-  // Serve the frontend assets under /api/groups/frontend
+  // Serve the login page at GET /api/login (POST /api/login is handled by auth router)
   const frontendPath = require("path").join(__dirname, "..", "..", "frontend");
+  app.get("/api/login", (req, res) => {
+    res.sendFile(require("path").join(frontendPath, "login.html"));
+  });
+  // Ensure the old static login path does not exist; return 404 so the only login route is /api/login
+  app.get("/api/groups/frontend/login.html", (req, res) => {
+    return res.status(404).send("Not Found");
+  });
+  // Serve frontend index (public). API endpoints remain protected.
+  app.get("/api/groups/frontend/index.html", (req, res) => {
+    return res.sendFile(require("path").join(frontendPath, "index.html"));
+  });
+  // auth agora é a rota /api/login (POST)
+  const authRouter = require("./routes/auth");
+  app.use("/api/login", authRouter);
+  // Serve the frontend assets under /api/groups/frontend
   app.use("/api/groups/frontend", express.static(frontendPath));
-  // Serve the create-group page at /api/groups/create-group
+  // Serve the create-group page at /api/groups/create-group (public - actions still require auth)
   app.get("/api/groups/create-group", (req, res) => {
     res.sendFile(require("path").join(frontendPath, "index.html"));
   });

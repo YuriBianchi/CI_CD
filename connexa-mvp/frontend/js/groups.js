@@ -19,9 +19,9 @@
     }
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const headers = { "Content-Type": "application/json" };
-      if (token) headers['Authorization'] = 'Bearer ' + token;
+      if (token) headers["Authorization"] = "Bearer " + token;
       const res = await fetch("/api/groups", {
         method: "POST",
         headers,

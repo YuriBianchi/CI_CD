@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/authController");
 
-router.post("/login", controller.login);
+// agora o ponto de entrada será /api/login (POST /)
+router.post("/", controller.login);
 
 module.exports = router;
