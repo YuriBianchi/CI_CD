@@ -1,5 +1,6 @@
 const express = require("express");
 const groupsRouter = require("./routes/groups");
+const usersRouter = require("./routes/usuarios");
 const db = require("./db");
 
 const createApp = async () => {
@@ -7,7 +8,8 @@ const createApp = async () => {
   const app = express();
   app.use(express.json());
   app.use("/api/groups", groupsRouter);
-  // Serve the login page at GET /api/login (POST /api/login is handled by auth router)
+  app.use("/api/usuarios", usersRouter);
+  // Serve the frontend assets under /api/groups/frontend
   const frontendPath = require("path").join(__dirname, "..", "..", "frontend");
   app.get("/api/login", (req, res) => {
     res.sendFile(require("path").join(frontendPath, "login.html"));

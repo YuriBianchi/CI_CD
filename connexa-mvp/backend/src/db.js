@@ -35,16 +35,27 @@ function init() {
       criadoPor INTEGER
     )
   `;
+<<<<<<< HEAD
   const createUsuarios = `
     CREATE TABLE IF NOT EXISTS Usuarios (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       nome TEXT NOT NULL,
       email TEXT NOT NULL UNIQUE,
       senha TEXT NOT NULL
+=======
+
+  const createUsuarioTableSql = `
+    CREATE TABLE IF NOT EXISTS Usuario (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT NOT NULL UNIQUE,
+      senha TEXT NOT NULL,
+      confirmado INTEGER DEFAULT 0
+>>>>>>> main
     )
   `;
 
   return new Promise((resolve, reject) => {
+<<<<<<< HEAD
     db.serialize(() => {
       db.run(createTableSql, (err) => {
         if (err) return reject(err);
@@ -53,6 +64,14 @@ function init() {
         if (err) return reject(err);
       });
       resolve();
+=======
+    db.run(createUsuarioTableSql, (err) => {
+      if (err) return reject(err);
+      db.run(createTableSql, (err) => {
+        if (err) return reject(err);
+        resolve();
+      });
+>>>>>>> main
     });
   });
 }
@@ -95,4 +114,23 @@ function clearAll() {
   });
 }
 
-module.exports = { db, init, close, insertGrupoEstudo, clearAll };
+// Promise wrappers for convenience
+function get(sql, params) {
+  return new Promise((resolve, reject) => {
+    db.get(sql, params, (err, row) => {
+      if (err) return reject(err);
+      resolve(row);
+    });
+  });
+}
+
+function run(sql, params) {
+  return new Promise((resolve, reject) => {
+    db.run(sql, params, function (err) {
+      if (err) return reject(err);
+      resolve(this);
+    });
+  });
+}
+
+module.exports = { db, init, close, insertGrupoEstudo, clearAll, get, run };
