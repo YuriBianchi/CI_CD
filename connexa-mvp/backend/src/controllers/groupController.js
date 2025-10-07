@@ -21,4 +21,20 @@ async function createGroup(req, res) {
   }
 }
 
-module.exports = { createGroup };
+async function joinGroup(req, res) {
+  try {
+    const grupoId = parseInt(req.params.id, 10);
+    if (!grupoId) return res.status(400).json({ error: "grupoId inválido" });
+    const usuarioId = req.user && req.user.sub;
+    if (!usuarioId)
+      return res.status(401).json({ error: "É necessário autenticar-se" });
+    const result = await groupService.joinGroup({ grupoId, usuarioId });
+    if (!result.success) return res.status(400).json({ error: result.error });
+    return res.status(200).json({ message: "Entrou no grupo com sucesso" });
+  } catch (err) {
+    console.error("controller.joinGroup error", err);
+    return res.status(500).json({ error: "Erro interno" });
+  }
+}
+
+module.exports = { createGroup, joinGroup };

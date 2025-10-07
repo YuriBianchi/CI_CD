@@ -14,6 +14,10 @@ const createApp = async () => {
   app.get("/api/login", (req, res) => {
     res.sendFile(require("path").join(frontendPath, "login.html"));
   });
+  // Serve the cadastro page at /api/cadastro.html for convenience
+  app.get("/api/cadastro.html", (req, res) => {
+    return res.sendFile(require("path").join(frontendPath, "cadastro.html"));
+  });
   // Ensure the old static login path does not exist; return 404 so the only login route is /api/login
   app.get("/api/groups/frontend/login.html", (req, res) => {
     return res.status(404).send("Not Found");

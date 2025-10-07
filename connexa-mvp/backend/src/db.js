@@ -50,12 +50,25 @@ function init() {
     );
   `;
 
+  const createGrupoMembrosSql = `
+    CREATE TABLE IF NOT EXISTS GrupoMembros (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      grupoId INTEGER NOT NULL,
+      usuarioId INTEGER NOT NULL,
+      criadoEm DATETIME DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(grupoId, usuarioId)
+    );
+  `;
+
   return new Promise((resolve, reject) => {
     db.serialize(() => {
       db.run(createUsuarioTableSql, (err) => {
         if (err) return reject(err);
       });
       db.run(createGrupoSql, (err) => {
+        if (err) return reject(err);
+      });
+      db.run(createGrupoMembrosSql, (err) => {
         if (err) return reject(err);
       });
       resolve();
