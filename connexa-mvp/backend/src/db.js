@@ -1,5 +1,7 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
+const fs = require("fs");
+
 // allow tests to override DB path via TEST_DB
 const dbPathFromEnv = process.env.TEST_DB;
 let dbFile;
@@ -13,11 +15,14 @@ try {
   ));
   dbFile = dbPathFromEnv || dbConfig.getDbPath();
 } catch (e) {
-  // fallback to previous behavior if database/index.js is not available
   dbFile =
     dbPathFromEnv ||
     path.join(__dirname, "..", "..", "database", "connexa.sqlite");
 }
+
+// ensure directory exists
+const dbDir = path.dirname(dbFile);
+if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
 
 const db = new sqlite3.Database(dbFile, (err) => {
   if (err) {
@@ -27,51 +32,33 @@ const db = new sqlite3.Database(dbFile, (err) => {
 });
 
 function init() {
-  const createTableSql = `
-    CREATE TABLE IF NOT EXISTS GrupoEstudo (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      assunto TEXT NOT NULL,
-      descricao TEXT,
-      criadoPor INTEGER
-    )
-  `;
-<<<<<<< HEAD
-  const createUsuarios = `
-    CREATE TABLE IF NOT EXISTS Usuarios (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nome TEXT NOT NULL,
-      email TEXT NOT NULL UNIQUE,
-      senha TEXT NOT NULL
-=======
-
   const createUsuarioTableSql = `
     CREATE TABLE IF NOT EXISTS Usuario (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       email TEXT NOT NULL UNIQUE,
       senha TEXT NOT NULL,
       confirmado INTEGER DEFAULT 0
->>>>>>> main
-    )
+    );
+  `;
+
+  const createGrupoSql = `
+    CREATE TABLE IF NOT EXISTS GrupoEstudo (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      assunto TEXT NOT NULL,
+      descricao TEXT,
+      criadoPor INTEGER
+    );
   `;
 
   return new Promise((resolve, reject) => {
-<<<<<<< HEAD
     db.serialize(() => {
-      db.run(createTableSql, (err) => {
+      db.run(createUsuarioTableSql, (err) => {
         if (err) return reject(err);
       });
-      db.run(createUsuarios, (err) => {
+      db.run(createGrupoSql, (err) => {
         if (err) return reject(err);
       });
       resolve();
-=======
-    db.run(createUsuarioTableSql, (err) => {
-      if (err) return reject(err);
-      db.run(createTableSql, (err) => {
-        if (err) return reject(err);
-        resolve();
-      });
->>>>>>> main
     });
   });
 }
@@ -115,7 +102,7 @@ function clearAll() {
 }
 
 // Promise wrappers for convenience
-function get(sql, params) {
+function get(sql, params = []) {
   return new Promise((resolve, reject) => {
     db.get(sql, params, (err, row) => {
       if (err) return reject(err);
@@ -124,11 +111,11 @@ function get(sql, params) {
   });
 }
 
-function run(sql, params) {
+function run(sql, params = []) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
       if (err) return reject(err);
-      resolve(this);
+      resolve({ lastID: this.lastID, changes: this.changes });
     });
   });
 }
