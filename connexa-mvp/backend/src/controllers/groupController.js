@@ -10,11 +10,9 @@ async function createGroup(req, res) {
         .json({ error: 'O campo "assunto" é obrigatório.' });
     }
 
-    const criadoPor = req.user && req.user.sub ? req.user.sub : null;
     const created = await groupService.createGroup({
       assunto: final.trim(),
       descricao,
-      criadoPor,
     });
     return res.status(201).json(created);
   } catch (err) {
